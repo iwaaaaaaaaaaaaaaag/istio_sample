@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews # クライアントがサービスにリクエストを送信する際に使用するアドレス
+  http:
+  - match:
+    - headers:
+        end-user:
+          exact: jason
+    route:
+    - destination:
+        host: reviews # istioのサービスレジストリに存在するhost
+        subset: v2
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
